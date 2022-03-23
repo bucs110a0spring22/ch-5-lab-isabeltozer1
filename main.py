@@ -32,8 +32,86 @@ import time
 #                   Your Code Goes Below                #
 #########################################################
 
+my_turtle=turtle.Turtle()
 
+def drawSquare(myturtle=None, width=0, top_left_x=0, top_left_y=0):
+  myturtle.up()
+  myturtle.goto(top_left_x, top_left_y)
+  my_turtle.down()
+  for i in range(0,4):
+    myturtle.forward(width)
+    myturtle.right(90)
 
+def drawLine(myturtle=None, x_start=0, y_start=0, x_end=0, y_end=0):
+  myturtle.up()
+  myturtle.goto(x_start,0)
+  myturtle.down()
+  myturtle.goto(x_end,0)
+  myturtle.up()
+  myturtle.goto(0,y_start)
+  myturtle.down()
+  myturtle.goto(0,y_end)
+
+def drawCircle(myturtle=None, radius=0):
+  myturtle.up()
+  myturtle.goto(0,-1)
+  myturtle.down()
+  myturtle.circle(radius, steps=360)
+
+def setUpDartboard(mywindow=None,myturtle=None):
+  mywindow.setworldcoordinates(-1,-1,1,1)
+  drawSquare(myturtle=myturtle, width=2, top_left_x=- 
+  -1, top_left_y=1)
+  drawLine(myturtle=myturtle, x_start=-1, y_start=0, 
+  x_end=1,y_end=0)
+  drawLine(myturtle=myturtle, x_start=0, y_start=-1, x_end=0, y_end=1)
+  drawCircle(myturtle=myturtle, radius=1)
+
+def isInCircle(myturtle=None, circle_center_x=0,circle_center_y=0, radius=0):
+  distance= myturtle.distance(circle_center_x, circle_center_y)
+  return(bool(distance<=radius))
+
+def throwDart(myturtle=None):
+  myturtle.up()
+  x=random.uniform(-1,1)
+  y=random.uniform(-1,1)
+  myturtle.goto(x,y)
+  if isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1):
+    myturtle.color("blue")
+  else:
+    myturtle.color("orange")
+  myturtle.down()
+  myturtle.dot()
+  myturtle.color("red")
+
+def playDarts(myturtle=None):
+  playerapoints=0
+  playerbpoints=0
+  for i in range(0,10):
+    throwDart(myturtle=myturtle)
+    if isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1):
+      playerapoints= playerapoints +1
+    throwDart(myturtle=myturtle)
+    if isInCircle(myturtle=myturtle,circle_center_x=0, circle_center_y=0, radius=1):
+      playerbpoints=playerbpoints +1
+    if playerapoints > playerbpoints:
+      print("Player A is the winner!")
+    else:
+      if playerapoints < playerbpoints:
+        print("Player B is the winner!")
+      else:
+        print("Player A and B have tied!")
+
+def montePi(myturtle=None, num_darts=0):
+  inside_count=0
+  outside_count=0
+  for i in range(0, num_darts):
+    throwDart(myturtle=myturtle)
+  if isInCircle(myturtle=myturtle, circle_center_x=0, circle_center_y=0, radius=1):
+   inside_count = outside_count +1
+  return((inside_count/num_darts)*4)
+
+    
 #########################################################
 #         Do not alter any code below here              #
 #       Your code must work with the main proivided     #
